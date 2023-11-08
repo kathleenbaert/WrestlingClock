@@ -16,7 +16,6 @@ public class Constants {
 			"49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" };
 
 	final static int BIG_FRACTIONAL_FONT_SiZE = 6;
-
 	final static int SMALL_FRACTIONAL_FONT_SIZE = 18;
 	final static int XSMALL_FRACTIONAL_FONT_SIZE = 30;
 

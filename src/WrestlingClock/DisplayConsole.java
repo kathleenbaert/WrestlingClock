@@ -23,16 +23,21 @@ import javax.swing.Timer;
 public class DisplayConsole extends JFrame implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
+
 	private static JLabel redScore;
 	private static JLabel greenScore;
 	private static JLabel clock;
 	private static JLabel period;
 	private static JLabel wrestler1Name;
 	private static JLabel wrestler2Name;
+
 	private static int redScoreVal = 0;
 	private static int greenScoreVal = 0;
 	private static boolean isPaused = false;
 	private static String pausedTime = "";
+	private static long startTime = -1;
+	private static Timer timer = null;
+
 	private static JFrame frame;
 
 	public DisplayConsole() {
@@ -41,6 +46,7 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 		frame.addComponentListener(this);
 
 		addComponentsToPane(frame.getContentPane());
+
 		frame.pack();
 		frame.setVisible(true);
 
@@ -122,7 +128,6 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 	public static void increaseRedScoreVal() {
 		redScoreVal++;
 		redScore.setText(Integer.toString(redScoreVal));
-
 	}
 
 	public static void decreaseRedScoreVal() {
@@ -147,9 +152,6 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 	public static void setPeriod(String p) {
 		period.setText(p);
 	}
-
-	private static long startTime = -1;
-	private static Timer timer = null;
 
 	public static void startClock(long duration) {
 
@@ -210,7 +212,6 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 			pausedTime = clock.getText();
 		}
 		isPaused = true;
-
 	}
 
 	public void componentResized(ComponentEvent e) {
@@ -220,34 +221,28 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 		greenScore.setFont(new Font("Arial", Font.PLAIN, width / Constants.BIG_FRACTIONAL_FONT_SiZE));
 		clock.setFont(new Font("Arial", Font.PLAIN, width / Constants.BIG_FRACTIONAL_FONT_SiZE));
 		period.setFont(new Font("Arial", Font.PLAIN, width / Constants.SMALL_FRACTIONAL_FONT_SIZE));
-
-		wrestler1Name.setFont(new Font("Arial", Font.PLAIN, width / rightSized(wrestler1Name.getText())));
-
-		wrestler2Name.setFont(new Font("Arial", Font.PLAIN, width / rightSized(wrestler2Name.getText())));
+		wrestler1Name.setFont(new Font("Arial", Font.PLAIN, width / sizeNam(wrestler1Name.getText())));
+		wrestler2Name.setFont(new Font("Arial", Font.PLAIN, width / sizeNam(wrestler2Name.getText())));
 
 		frame.getContentPane().revalidate();
 	}
 
 	public static void setWrestler1Name(String n) {
 		int width = frame.getWidth();
-
-		wrestler1Name.setFont(new Font("Arial", Font.PLAIN, width / rightSized(n)));
-
+		wrestler1Name.setFont(new Font("Arial", Font.PLAIN, width / sizeNam(n)));
 		wrestler1Name.setText(n);
-
 	}
 
 	public static void setWrestler2Name(String n) {
 		int width = frame.getWidth();
 
-		wrestler2Name.setFont(new Font("Arial", Font.PLAIN, width / rightSized(n)));
+		wrestler2Name.setFont(new Font("Arial", Font.PLAIN, width / sizeNam(n)));
 
 		wrestler2Name.setText(n);
 
 	}
 
-	private static int rightSized(String n) {
-
+	private static int sizeNam(String n) {
 		if (n.length() > 10) {
 			return Constants.XSMALL_FRACTIONAL_FONT_SIZE;
 		}

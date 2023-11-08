@@ -10,6 +10,7 @@ public class ConvertTime {
 		this.timeMS = convertStringtoMS();
 	}
 
+	// precondition: assumes time will be in the format 00:00
 	public long convertStringtoMS() {
 		String[] arr = enteredTime.split(":");
 		String minutes = arr[0];

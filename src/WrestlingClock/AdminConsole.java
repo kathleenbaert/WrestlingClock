@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 public class AdminConsole extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public static JButton redUp;
+	private static JButton redUp;
 	private static JButton greenUp;
 	private static JButton redDown;
 	private static JButton greenDown;
@@ -25,6 +25,7 @@ public class AdminConsole extends JFrame {
 	private static JButton updateWrestler1Name;
 	private static JButton updateWrestler2Name;
 	private static JButton startCustomTime;
+
 	private static JTextField wrestler1Name;
 	private static JTextField wrestler2Name;
 
@@ -32,6 +33,7 @@ public class AdminConsole extends JFrame {
 	private static JComboBox<String> periodDropDown;
 	private static JComboBox<String> customMinDropDown;
 	private static JComboBox<String> customSecDropDown;
+
 	private static JFrame frame;
 
 	public AdminConsole() {
@@ -149,7 +151,6 @@ public class AdminConsole extends JFrame {
 
 		redUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				DisplayConsole.increaseRedScoreVal();
 			}
 		});
@@ -179,6 +180,7 @@ public class AdminConsole extends JFrame {
 				DisplayConsole.startClock(ct.getTimeMS());
 			}
 		});
+
 		stopClock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DisplayConsole.stopClock();
@@ -187,7 +189,6 @@ public class AdminConsole extends JFrame {
 		});
 
 		clearClock.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				DisplayConsole.clearClock();
 			}
@@ -203,17 +204,18 @@ public class AdminConsole extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String min = Constants.MIN_OPTIONS[customMinDropDown.getSelectedIndex()];
 				String sec = Constants.SEC_OPTIONS[customSecDropDown.getSelectedIndex()];
-
 				ConvertTime ct = new ConvertTime(min + ":" + sec);
 				DisplayConsole.startClock(ct.getTimeMS());
 			}
 		});
+
 		timeDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DisplayConsole.setTime(Constants.TIME_OPTIONS[timeDropDown.getSelectedIndex()]);
 			}
 
 		});
+
 		customMinDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DisplayConsole.setTime(Constants.MIN_OPTIONS[customMinDropDown.getSelectedIndex()] + ":"
@@ -221,6 +223,7 @@ public class AdminConsole extends JFrame {
 			}
 
 		});
+
 		customSecDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DisplayConsole.setTime(Constants.MIN_OPTIONS[customMinDropDown.getSelectedIndex()] + ":"
@@ -228,15 +231,15 @@ public class AdminConsole extends JFrame {
 			}
 
 		});
-		updateWrestler1Name.addActionListener(new ActionListener() {
 
+		updateWrestler1Name.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DisplayConsole.setWrestler1Name(wrestler1Name.getText());
 			}
 
 		});
-		updateWrestler2Name.addActionListener(new ActionListener() {
 
+		updateWrestler2Name.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DisplayConsole.setWrestler2Name(wrestler2Name.getText());
 			}
