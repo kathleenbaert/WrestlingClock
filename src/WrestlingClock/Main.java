@@ -12,10 +12,8 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminConsole adminConsole = new AdminConsole();
-					DisplayConsole displayConsole = new DisplayConsole();
-					adminConsole.setVisible(true);
-					displayConsole.setVisible(true);
+					new AdminConsole();
+					new DisplayConsole();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
