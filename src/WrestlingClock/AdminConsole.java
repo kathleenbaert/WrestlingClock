@@ -63,6 +63,8 @@ public class AdminConsole extends JFrame {
 		gbc.gridy = 0;
 
 		redUp = new JButton("+1 Red");
+		redUp.setBackground(Constants.RED);
+		redUp.setOpaque(true);
 		gbc.gridx = 0;
 		pane.add(redUp, gbc);
 
@@ -72,6 +74,8 @@ public class AdminConsole extends JFrame {
 		pane.add(timeDropDown, gbc);
 
 		greenUp = new JButton("+1 Green");
+		greenUp.setBackground(Constants.GREEN);
+		greenUp.setOpaque(true);
 		gbc.weightx = 0.5;
 		gbc.gridx = 2;
 		pane.add(greenUp, gbc);
@@ -80,6 +84,8 @@ public class AdminConsole extends JFrame {
 		gbc.gridy = 1;
 
 		redDown = new JButton("-1 Red");
+		redDown.setBackground(Constants.RED);
+		redDown.setOpaque(true);
 		gbc.gridx = 0;
 		pane.add(redDown, gbc);
 
@@ -89,6 +95,8 @@ public class AdminConsole extends JFrame {
 		pane.add(startTime, gbc);
 
 		greenDown = new JButton("-1 Green");
+		greenDown.setBackground(Constants.GREEN);
+		greenDown.setOpaque(true);
 		gbc.gridx = 2;
 		pane.add(greenDown, gbc);
 
