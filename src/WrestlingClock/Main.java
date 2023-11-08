@@ -9,10 +9,10 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminConsole frame = new AdminConsole();
-					DisplayConsole frame1 = new DisplayConsole();
-					frame.setVisible(true);
-					frame1.setVisible(true);
+					AdminConsole adminConsole = new AdminConsole();
+					DisplayConsole displayConsole = new DisplayConsole();
+					adminConsole.setVisible(true);
+					displayConsole.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
