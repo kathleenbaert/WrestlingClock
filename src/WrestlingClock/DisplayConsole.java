@@ -166,6 +166,7 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 	}
 
 	private static void startTimer(long duration) {
+		isPaused = false;
 		timer = new Timer(10, new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -212,6 +213,16 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 			pausedTime = clock.getText();
 		}
 		isPaused = true;
+	}
+	
+	public static void startOrStopClock(long duration) {
+		if(timer.isRunning()) {
+			timer.stop();
+			pausedTime = clock.getText();
+			isPaused = true;
+		}else {
+			startTimer(duration);
+		}
 	}
 
 	public void componentResized(ComponentEvent e) {

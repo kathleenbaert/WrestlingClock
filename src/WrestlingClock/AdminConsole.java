@@ -6,13 +6,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-public class AdminConsole extends JFrame {
+public class AdminConsole extends JFrame implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private static JButton redUp;
@@ -29,10 +31,6 @@ public class AdminConsole extends JFrame {
 	private static JTextField wrestler1Name;
 	private static JTextField wrestler2Name;
 
-	private static JComboBox<String> timeDropDown;
-	private static JComboBox<String> periodDropDown;
-	private static JComboBox<String> customMinDropDown;
-	private static JComboBox<String> customSecDropDown;
 
 	private static JFrame frame;
 
@@ -68,10 +66,6 @@ public class AdminConsole extends JFrame {
 		gbc.gridx = 0;
 		pane.add(redUp, gbc);
 
-		timeDropDown = new JComboBox<>(Constants.TIME_OPTIONS);
-		timeDropDown.setSelectedIndex(0);
-		gbc.gridx = 1;
-		pane.add(timeDropDown, gbc);
 
 		greenUp = new JButton("+1 Green");
 		greenUp.setBackground(Constants.GREEN);
@@ -134,24 +128,9 @@ public class AdminConsole extends JFrame {
 		gbc.gridx = 0;
 		pane.add(updateWrestler2Name, gbc);
 
-		// set up fifth row
-		gbc.gridy = 4;
-		periodDropDown = new JComboBox<>(Constants.PERIOD_OPTIONS);
-		periodDropDown.setSelectedIndex(0);
-		gbc.gridx = 1;
-		pane.add(periodDropDown, gbc);
+
 
 		// set up sixth row
-		gbc.gridy = 5;
-		customMinDropDown = new JComboBox<>(Constants.MIN_OPTIONS);
-		customMinDropDown.setSelectedIndex(0);
-		gbc.gridx = 2;
-		pane.add(customMinDropDown, gbc);
-
-		customSecDropDown = new JComboBox<>(Constants.SEC_OPTIONS);
-		customSecDropDown.setSelectedIndex(0);
-		gbc.gridx = 1;
-		pane.add(customSecDropDown, gbc);
 
 		startCustomTime = new JButton("Start Custom Time");
 		gbc.gridx = 0;
@@ -182,13 +161,6 @@ public class AdminConsole extends JFrame {
 			}
 		});
 
-		startTime.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ConvertTime ct = new ConvertTime(Constants.TIME_OPTIONS[timeDropDown.getSelectedIndex()]);
-				DisplayConsole.startClock(ct.getTimeMS());
-			}
-		});
-
 		stopClock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DisplayConsole.stopClock();
@@ -202,43 +174,7 @@ public class AdminConsole extends JFrame {
 			}
 		});
 
-		periodDropDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DisplayConsole.setPeriod(Constants.PERIOD_OPTIONS[periodDropDown.getSelectedIndex()]);
-			}
-		});
 
-		startCustomTime.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String min = Constants.MIN_OPTIONS[customMinDropDown.getSelectedIndex()];
-				String sec = Constants.SEC_OPTIONS[customSecDropDown.getSelectedIndex()];
-				ConvertTime ct = new ConvertTime(min + ":" + sec);
-				DisplayConsole.startClock(ct.getTimeMS());
-			}
-		});
-
-		timeDropDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DisplayConsole.setTime(Constants.TIME_OPTIONS[timeDropDown.getSelectedIndex()]);
-			}
-
-		});
-
-		customMinDropDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DisplayConsole.setTime(Constants.MIN_OPTIONS[customMinDropDown.getSelectedIndex()] + ":"
-						+ Constants.SEC_OPTIONS[customSecDropDown.getSelectedIndex()]);
-			}
-
-		});
-
-		customSecDropDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DisplayConsole.setTime(Constants.MIN_OPTIONS[customMinDropDown.getSelectedIndex()] + ":"
-						+ Constants.SEC_OPTIONS[customSecDropDown.getSelectedIndex()]);
-			}
-
-		});
 
 		updateWrestler1Name.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -253,6 +189,23 @@ public class AdminConsole extends JFrame {
 			}
 
 		});
+
+	}
+
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+
+			
+			
+		}
+	}
+
+	public void keyReleased(KeyEvent e) {
 
 	}
 
