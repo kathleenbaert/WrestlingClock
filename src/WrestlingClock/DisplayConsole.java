@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.text.SimpleDateFormat;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,10 +32,10 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 
 	private static int redScoreVal = 0;
 	private static int greenScoreVal = 0;
-	private static boolean isPaused = false;
-	private static String pausedTime = "";
-	private static long startTime = -1;
+
 	private static Timer timer = null;
+	private static int time;
+	private static String sTime;
 
 	private static JFrame frame;
 
@@ -128,6 +127,7 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 	public static void increaseRedScoreVal() {
 		redScoreVal++;
 		redScore.setText(Integer.toString(redScoreVal));
+		AdminConsole.updateTime();
 	}
 
 	public static void decreaseRedScoreVal() {
@@ -135,11 +135,13 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 			redScoreVal--;
 			redScore.setText(Integer.toString(redScoreVal));
 		}
+		AdminConsole.updateTime();
 	}
 
 	public static void increaseGreenScoreVal() {
 		greenScoreVal++;
 		greenScore.setText(Integer.toString(greenScoreVal));
+		AdminConsole.updateTime();
 	}
 
 	public static void decreaseGreenScoreVal() {
@@ -147,48 +149,28 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 			greenScoreVal--;
 			greenScore.setText(Integer.toString(greenScoreVal));
 		}
+		AdminConsole.updateTime();
 	}
 
 	public static void setPeriod(String p) {
 		period.setText(p);
 	}
 
-	public static void startClock(long duration) {
+	public static void startClock() {
+		int delay = 1000;
 
-		if (isPaused && !pausedTime.isEmpty()) {
-			// means it's paused and need to start a new timer
-			ConvertTime ct = new ConvertTime(pausedTime);
-			duration = ct.getTimeMS();
-		}
-
-		startTimer(duration);
-
-	}
-
-	private static void startTimer(long duration) {
-		isPaused = false;
-		timer = new Timer(10, new ActionListener() {
+		ActionListener countDown = new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if (startTime < 0) {
-					startTime = System.currentTimeMillis();
-				}
-				long now = System.currentTimeMillis();
-				long clockTime = now - startTime;
-				if (clockTime >= duration) {
-					clockTime = duration;
-					timer.stop();
-				}
+				time--;
+				setVisualTime();
 
-				SimpleDateFormat df = new SimpleDateFormat("m:ss");
-				clock.setText(df.format(duration - clockTime));
 			}
-		});
-
-		timer.setInitialDelay(0);
-
+		};
+		if (timer == null) {
+			timer = new Timer(delay, countDown);
+		}
 		if (!timer.isRunning()) {
-			startTime = -1;
 			timer.start();
 		}
 	}
@@ -197,32 +179,45 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 		if (timer.isRunning()) {
 			timer.stop();
 		}
-		isPaused = false;
-		pausedTime = "";
 		clock.setText("0:00");
+		time = 0;
 
-	}
-
-	public static void setTime(String s) {
-		clock.setText(s);
 	}
 
 	public static void stopClock() {
 		if (timer.isRunning()) {
 			timer.stop();
-			pausedTime = clock.getText();
 		}
-		isPaused = true;
 	}
 	
-	public static void startOrStopClock(long duration) {
+	public static void startOrStopClock() {
 		if(timer.isRunning()) {
 			timer.stop();
-			pausedTime = clock.getText();
-			isPaused = true;
 		}else {
-			startTimer(duration);
+			startClock();
 		}
+	}
+
+	public static void addTime(int addTime) {
+		if ((time + addTime) >= 0) {
+			time += addTime;
+		}
+		setVisualTime();
+	}
+
+	public static void setVisualTime() {
+		if (time > 0) {
+			if ((time % 60) < 10) {
+				sTime = time / 60 + ":0" + time % 60;
+			} else {
+				sTime = time / 60 + ":" + time % 60;
+			}
+		} else {
+			sTime = "0:00";
+			timer.stop();
+		}
+		clock.setText(sTime);
+		AdminConsole.updateTime();
 	}
 
 	public void componentResized(ComponentEvent e) {
@@ -232,28 +227,28 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 		greenScore.setFont(new Font("Arial", Font.PLAIN, width / Constants.BIG_FRACTIONAL_FONT_SiZE));
 		clock.setFont(new Font("Arial", Font.PLAIN, width / Constants.BIG_FRACTIONAL_FONT_SiZE));
 		period.setFont(new Font("Arial", Font.PLAIN, width / Constants.SMALL_FRACTIONAL_FONT_SIZE));
-		wrestler1Name.setFont(new Font("Arial", Font.PLAIN, width / sizeNam(wrestler1Name.getText())));
-		wrestler2Name.setFont(new Font("Arial", Font.PLAIN, width / sizeNam(wrestler2Name.getText())));
+		wrestler1Name.setFont(new Font("Arial", Font.PLAIN, width / sizeName(wrestler1Name.getText())));
+		wrestler2Name.setFont(new Font("Arial", Font.PLAIN, width / sizeName(wrestler2Name.getText())));
 
 		frame.getContentPane().revalidate();
 	}
 
 	public static void setWrestler1Name(String n) {
 		int width = frame.getWidth();
-		wrestler1Name.setFont(new Font("Arial", Font.PLAIN, width / sizeNam(n)));
+		wrestler1Name.setFont(new Font("Arial", Font.PLAIN, width / sizeName(n)));
 		wrestler1Name.setText(n);
 	}
 
 	public static void setWrestler2Name(String n) {
 		int width = frame.getWidth();
 
-		wrestler2Name.setFont(new Font("Arial", Font.PLAIN, width / sizeNam(n)));
+		wrestler2Name.setFont(new Font("Arial", Font.PLAIN, width / sizeName(n)));
 
 		wrestler2Name.setText(n);
 
 	}
 
-	private static int sizeNam(String n) {
+	private static int sizeName(String n) {
 		if (n.length() > 10) {
 			return Constants.XSMALL_FRACTIONAL_FONT_SIZE;
 		}
@@ -270,6 +265,21 @@ public class DisplayConsole extends JFrame implements ComponentListener {
 
 	public void componentHidden(ComponentEvent e) {
 
+	}
+
+	public static String getsTime() {
+		return sTime;
+	}
+	public static int getTime() {
+		return time;
+	}
+	
+	public static int getRedScoreVal() {
+		return redScoreVal;
+	}
+
+	public static int getGreenScoreVal() {
+		return greenScoreVal;
 	}
 
 }
